@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <key name="Software">
 	<key name="ConEmu">
-		<key name=".Vanilla" modified="2020-10-01 20:03:48" build="191012">
+		<key name=".Vanilla" modified="2020-10-24 10:47:15" build="191012">
 			<value name="ColorTable00" type="dword" data="00000000"/>
 			<value name="ColorTable01" type="dword" data="00aa0000"/>
 			<value name="ColorTable02" type="dword" data="0000aa00"/>
@@ -71,7 +71,7 @@
 			<value name="ProcessAnsi" type="hex" data="01"/>
 			<value name="UseClink" type="hex" data="01"/>
 			<value name="StartType" type="hex" data="00"/>
-			<value name="CmdLine" type="string" data=".\comps\ForNaProgram.bat"/>
+			<value name="CmdLine" type="string" data=".\comps\ForNaProgram_Start.bat"/>
 			<value name="StartTasksFile" type="string" data=""/>
 			<value name="StartTasksName" type="string" data="{cmd::Cmder}"/>
 			<value name="StartFarFolders" type="hex" data="00"/>
@@ -124,11 +124,11 @@
 			<value name="ColorKeyValue" type="dword" data="00010101"/>
 			<value name="UseCurrentSizePos" type="hex" data="01"/>
 			<value name="WindowMode" type="dword" data="0000051f"/>
-			<value name="ConWnd Width" type="dword" data="00000048"/>
-			<value name="ConWnd Height" type="dword" data="00000028"/>
+			<value name="ConWnd Width" type="dword" data="0000004e"/>
+			<value name="ConWnd Height" type="dword" data="00000029"/>
 			<value name="Cascaded" type="hex" data="00"/>
-			<value name="ConWnd X" type="long" data="914"/>
-			<value name="ConWnd Y" type="long" data="124"/>
+			<value name="ConWnd X" type="long" data="285"/>
+			<value name="ConWnd Y" type="long" data="153"/>
 			<value name="16bit Height" type="ulong" data="0"/>
 			<value name="AutoSaveSizePos" type="hex" data="01"/>
 			<value name="IntegralSize" type="hex" data="00"/>
@@ -288,7 +288,7 @@
 			<value name="DesktopMode" type="hex" data="00"/>
 			<value name="SnapToDesktopEdges" type="hex" data="00"/>
 			<value name="AlwaysOnTop" type="hex" data="00"/>
-			<value name="SleepInBackground" type="hex" data="01"/>
+			<value name="SleepInBackground" type="hex" data="00"/>
 			<value name="MinimizeOnLoseFocus" type="hex" data="00"/>
 			<value name="DisableFarFlashing" type="hex" data="02"/>
 			<value name="DisableAllFlashing" type="hex" data="02"/>

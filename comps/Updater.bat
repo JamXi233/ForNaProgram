@@ -50,6 +50,10 @@ set update=%%a
 for /f "delims=" %%a in (version.txt) do (
 set version=%%a
 )
+update http://jam233.tpddns.cn:51/update/%name%/updatecmd.txt >updatecmd.txt
+for /f "delims=" %%a in (updatecmd.txt) do (
+set updatecmd=%%a
+)
 if %name%==GetNameFailed goto GetNameFailed
 title JSG-Updater_%name%
 :checkupdate
@@ -80,6 +84,7 @@ cls
 .\bin\7z.exe x -aoa .\%name%_%update%.zip
 del .\%name%_%update%.zip
 cls
+%updatecmd%
 echo 更新完成(FULL)
 pause
 exit
@@ -103,7 +108,7 @@ mode con:cols=37 lines=5
 title JSG-Updater 错误
 echo JSG-Updater必须和应用程序本体协同工作
 echo 不能单一打开
-.\bin\echon -c 0A 版本:1.1
+.\bin\echon -c 0A 版本:1.2
 echo 按任意键退出
 pause >nul
 exit

@@ -32,19 +32,29 @@
 ::
 ::978f952a14a936cc963da21a135fa983
 @echo off
+:Start
 ::设置主目录
 cd bin
 ::设置软件名称及代号
 set name=ForNaProgram
-set version=3.3
-echo %name%>.\bin\name.txt
-echo %version%>.\bin\version.txt
+set version=3.4
+echo %name%>..\bin\name.txt
+echo %version%>..\bin\version.txt
 title %name%
 set Y=%date:~0,4%
 set M=%date:~5,2%
 set D=%date:~8,2%
+set TH=%time:~0,2%
+:DELLEFT
+if "%TH:~0,1%"==" " set TH=%TH:~1%&&goto delleft
+set TM=%time:~3,2%
+::FOR
+set par=%1%
+if %par%==0 set programstatus=normal&echo off
+if %par%==1 set programstatus=mini&echo off&goto main
+if %par%==2 set programstatus=Debug&echo on
 ::应用前执行
-set SS=2020-03-17
+set SS=2020-03-16
 set EE=%Y%-%M%-%D%
 echo Set fs = CreateObject("Scripting.FileSystemObject")>.\mdate\mdate.vbs
 echo Set a = fs.OpenTextFile(".\mdate\mdate.txt", 8,True)>>.\mdate\mdate.vbs
@@ -76,19 +86,21 @@ cls
 del /f/q ".\mdate\mdate.vbs" & del /f/q ".\mdate\mdate.txt"
 del /f/q ".\mdate\sdate.vbs" & del /f/q ".\mdate\sdate.txt"
 cls
-
 ::检测更新
-@echo off
 mode con:cols=57 lines=30
 color 0b
+set programstatus=normal
 cls
 echo Please Wait...
 echo Secure By JSG
 :retrycheck
+cls
+echo Please Wait...
+echo Secure By JSG
 echo 尝试连接到JSG更新服务器...
 ping -n 1 jam233.tpddns.cn >nul
 if %errorlevel%==1 goto networkerror
-echo %date% %time%:Network Normal>./logs/%date:~0,4%.%date:~5,2%.%date:~8,2%.%time:~0,2%%time:~3,2%.log
+echo %date% %time%:Network Normal>>./logs/%Y%%M%%D%.log
 update http://jam233.tpddns.cn:51/update/status.txt >status.txt
 for /f "delims=" %%a in (status.txt) do (
 set status=%%a
@@ -98,7 +110,7 @@ if %status%==1 goto servererror
 if %errorlevel%==0 goto testversion
 
 :networkerror
-echo %date% %time%:Network Error>./logs/%date:~0,4%.%date:~5,2%.%date:~8,2%.%time:~0,2%%time:~3,2%.log
+echo %date% %time%:Network Error>>./logs/%Y%%M%%D%.log
 cls
 echo 无法连接到JSG更新服务器 请选择项目:
 echo 1.重试
@@ -108,7 +120,7 @@ if %choice%==1 goto retrycheck
 if %choice%==2 goto main
 color 0e
 :testversion
-@echo off & setlocal enabledelayedexpansion 
+setlocal enabledelayedexpansion 
 update http://jam233.tpddns.cn:51/update/%name%/updatever.txt >update.txt
 for /f "delims=" %%a in (update.txt) do (
 set update=%%a
@@ -124,7 +136,7 @@ cls
 color c
 update http://jam233.tpddns.cn:51/update/welcome.txt
 echo 当前版本为:%version%
-ping -n 2 127.0.0.1 >nul
+ping -n 1 127.0.0.1 >nul
 if %died%==1 goto died
 if %update%==%version% goto main
 
@@ -159,16 +171,19 @@ exit
 ::检测更新结束
 :main
 cls
-mode con:cols=57 lines=35
+mode con:cols=57 lines=41
 title 你好呀,我的小娜娜
 set choice=no
 cls
 color 0A
 cls
 echon -c 4F 你好呀,我的小娜娜
-echon 版本:%version%
+if %programstatus%==mini echon 版本:%version%[SafeMode]
+if %programstatus%==normal echon 版本:%version%
+if %programstatus%==Debug echon 版本:%version%[Debug]
 echo 现在是%date% %time%
-echon -c CF 我们已经相爱了%mdate%天哦
+if %programstatus%==mini echon -c CF 程序正运行于安全模式哦
+if %programstatus%==normal echon -c CF 我们已经相爱了%mdate%天哦
 if %date:~0,10%==2020/09/30 echon -c Ad 距离国庆节还有%sdate%天哦，提前祝老婆国庆节快乐哦！
 if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("国庆节快乐哦!",64,"老婆呀")(window.close)
 if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("十一和中秋",64,"老婆呀")(window.close)
@@ -194,6 +209,9 @@ if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("祝老婆今晚好梦哟",64,"老婆呀"
 if %date:~0,10%==2020/10/01 echon -c C7 今天是国庆节哦，祝老婆国庆节快乐哦！
 if %date:~0,10%==2020/10/01 echon -c C7 今天要开开心心的哦！
 if %date:~0,10%==2020/10/01 echon -c C7 老公爱你哟！
+if %date:~0,10%==2020/10/24 echon -c E4 今天是联合国日哦
+if %date:~0,10%==2020/10/25 echon -c E4 今天是重阳节哦，老婆今天要快乐哦,想吃什么就吃什么吧！
+if %date:~0,10%==2020/10/25 echon -c E4 但是过了今天还是要管老婆哦,老公会永远爱你的哦~
 rem if %date:~0,10% neq 2020/08/25 set /a remain=25-%date:~8,2%
 rem if %date:~0,10% neq 2020/08/25 echon -c 5F 距离七夕还有%remain%天哦
 if %date:~0,10%==2020/08/25 echon -c CF 今天是七夕哦
@@ -231,8 +249,14 @@ echon -c 0B ├-T.想跟你说的话
 echon -c 0B ├-H.帮助
 echon -c 0B └-U.本版本更新日志
 echo.
+echon -c 0C 控制
+echon -c 0B ├-Exit.退出
+echon -c 0B ├-R.重启
+echon -c 0B └-Command.控制台
 echon -c 2F ↓输入选择↓
+echo %date% %time%:Displayed Menu>>./logs/%Y%%M%%D%.log
 set /p choice=
+echo %date% %time%:Selected:%choice%>>./logs/%Y%%M%%D%.log
 if %choice%==1 goto bb1
 if %choice%==2 goto bb2
 if %choice%==3 goto bb3
@@ -252,6 +276,12 @@ if %choice%==E goto JSG
 if %choice%==T goto TALK
 if %choice%==H goto HELP
 if %choice%==U goto Update
+if %choice%==Exit goto exit
+if %choice%==exit goto exit
+if %choice%==R echo --------------------RST-------------------->>./logs/%Y%%M%%D%.log&goto Start
+if %choice%==r echo --------------------RST-------------------->>./logs/%Y%%M%%D%.log&goto Start
+if %choice%==Command start ..\comps\command.bat&goto main
+if %choice%==command start ..\comps\command.bat&goto main
 if %choice%==no goto err
 :err
 cls
@@ -300,13 +330,16 @@ echo 选择项目:
 echon -c 0C JSG网站
 echon -c 0B ├-1.JSG-主页
 echon -c 0B ├-2.JSG-PrDisk
-echon -c 0B └-3.我们的时光日记
+echon -c 0B ├-3.我们的时光日记
+echon -c 0B └-0.返回
+
 echo.
 echon -c 2F ↓输入选择↓
 set /p choice=
 if %choice%==1 start https://jamsg.cn &pause &goto main
 if %choice%==2 start https://prdisk.jamsg.cn &pause &goto main
 if %choice%==3 start https://love.jamsg.cn &pause &goto main
+if %choice%==0 goto main
 :COLOR
 mode con:cols=65 lines=30
 cls
@@ -372,7 +405,6 @@ echo 显示完成 按任意键返回主菜单
 pause >nul
 goto main
 :闪烁心心
-@echo off
 title LOVE FOR 焦娜
 mode con:cols=73 lines=30
 color 5
@@ -814,4 +846,6 @@ update http://jam233.tpddns.cn:51/update/%name%/update.txt
 pause
 goto main
 :exit
+echo %date% %time%:Normal Exit>>./logs/%Y%%M%%D%.log
+echo --------------------END-------------------->>./logs/%Y%%M%%D%.log
 exit
