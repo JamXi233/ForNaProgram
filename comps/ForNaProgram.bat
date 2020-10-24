@@ -31,22 +31,56 @@
 ::
 ::
 ::978f952a14a936cc963da21a135fa983
-
+@echo off
+::设置主目录
+cd bin
 ::设置软件名称及代号
 set name=ForNaProgram
-set version=3.1
+set version=3.2
 echo %name%>.\bin\name.txt
 echo %version%>.\bin\version.txt
 title %name%
 set Y=%date:~0,4%
 set M=%date:~5,2%
 set D=%date:~8,2%
-::检测更新
+::应用前执行
+set SS=2020-03-17
+set EE=%Y%-%M%-%D%
+echo Set fs = CreateObject("Scripting.FileSystemObject")>.\mdate\mdate.vbs
+echo Set a = fs.OpenTextFile(".\mdate\mdate.txt", 8,True)>>.\mdate\mdate.vbs
+echo a.write cdate("%EE%")-cdate("%SS%")>>.\mdate\mdate.vbs
+echo a.Close>>.\mdate\mdate.vbs
+cls
+ping -n 2 127.0.0.1>nul
+start wscript -e:vbs ".\mdate\mdate.vbs"
+ping -n 2 127.0.0.1>nul
+for /f %%a in (.\mdate\mdate.txt) do (
+set mdate=%%a
+)
+cls
+set SS=%Y%-%M%-%D%
+set EE=2020-10-01
+echo Set fs = CreateObject("Scripting.FileSystemObject")>.\mdate\sdate.vbs
+echo Set a = fs.OpenTextFile(".\mdate\sdate.txt", 8,True)>>.\mdate\sdate.vbs
+echo a.write cdate("%EE%")-cdate("%SS%")>>.\mdate\sdate.vbs
+echo a.Close>>.\mdate\sdate.vbs
+ping -n 2 127.0.0.1>nul
+start wscript -e:vbs ".\mdate\sdate.vbs"
+cls
+ping -n 1 127.0.0.1>nul
+for /f %%a in (.\mdate\sdate.txt) do (
+set sdate=%%a
+)
+ping -n 1 127.0.0.1>nul
+cls
+del /f/q ".\mdate\mdate.vbs" & del /f/q ".\mdate\mdate.txt"
+del /f/q ".\mdate\sdate.vbs" & del /f/q ".\mdate\sdate.txt"
+cls
 
+::检测更新
 @echo off
 mode con:cols=57 lines=30
 color 0b
-cd bin
 cls
 echo Please Wait...
 echo Secure By JSG
@@ -95,7 +129,9 @@ if %died%==1 goto died
 if %update%==%version% goto main
 
 :checkupdate
-start ..\comps\Updater.bat
+Echo wscript.Echo MsgBox ("%name%检查到更新,新版本号为%update%,是否开始更新", 36, "JSG-Updater")>tmp.vbs
+For /f %%i in ('cscript /nologo tmp.vbs') do If %%i==6 start ..\comps\Updater.bat
+Del /q tmp.vbs
 goto main
 
 :downloadupdate
@@ -123,37 +159,6 @@ exit
 ::检测更新结束
 :main
 cls
-echo 正在加载主程序...
-echo Q:为什么会出现这个呢?
-echo A:因为软件功能的增多 每次重新进入主页都要重置
-echo A:在以后的更新可能会优化哦
-set SS=2020-03-17
-set EE=%Y%-%M%-%D%
-echo Set fs = CreateObject("Scripting.FileSystemObject")>.\mdate\mdate.vbs
-echo Set a = fs.OpenTextFile(".\mdate\mdate.txt", 8,True)>>.\mdate\mdate.vbs
-echo a.write cdate("%EE%")-cdate("%SS%")>>.\mdate\mdate.vbs
-echo a.Close>>.\mdate\mdate.vbs
-ping -n 1 127.0.0.1>nul
-start wscript -e:vbs ".\mdate\mdate.vbs"
-ping -n 2 127.0.0.1>nul
-for /f %%a in (.\mdate\mdate.txt) do (
-set mdate=%%a
-)
-set SS=%Y%-%M%-%D%
-set EE=2020-10-01
-echo Set fs = CreateObject("Scripting.FileSystemObject")>.\mdate\sdate.vbs
-echo Set a = fs.OpenTextFile(".\mdate\sdate.txt", 8,True)>>.\mdate\sdate.vbs
-echo a.write cdate("%EE%")-cdate("%SS%")>>.\mdate\sdate.vbs
-echo a.Close>>.\mdate\sdate.vbs
-ping -n 1 127.0.0.1>nul
-start wscript -e:vbs ".\mdate\sdate.vbs"
-ping -n 2 127.0.0.1>nul
-for /f %%a in (.\mdate\sdate.txt) do (
-set sdate=%%a
-)
-ping -n 1 127.0.0.1>nul
-del /f/q ".\mdate\mdate.vbs" & del /f/q ".\mdate\mdate.txt"
-del /f/q ".\mdate\sdate.vbs" & del /f/q ".\mdate\sdate.txt"
 mode con:cols=57 lines=35
 title 你好呀,我的小娜娜
 set choice=no
@@ -165,16 +170,37 @@ echon 版本:%version%
 echo 现在是%date% %time%
 echon -c CF 我们已经相爱了%mdate%天哦
 if %date:~0,10%==2020/09/30 echon -c Ad 距离国庆节还有%sdate%天哦，提前祝老婆国庆节快乐哦！
+if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("国庆节快乐哦!",64,"老婆呀")(window.close)
+if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("十一和中秋",64,"老婆呀")(window.close)
+if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("见你是最开心的事!",64,"老婆呀")(window.close)
+if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("跟你一起吃饭是最开心的事!",64,"老婆呀")(window.close)
+if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("跟你一起逛街是最开心的事!",64,"老婆呀")(window.close)
+if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("但是...",64,"老婆呀")(window.close)
+if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("但我却全都没有做到...",64,"老婆呀")(window.close)
+if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("我能做的事",64,"老婆呀")(window.close)
+if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("只有第一个向你问候",64,"老婆呀")(window.close)
+if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("把你放在我心里,永远想着你！",64,"老婆呀")(window.close)
+if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("你和全家能合家团圆,一起吃团圆饭,老公就很开心了",64,"老婆呀")(window.close)
+if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("老公祝老婆",64,"老婆呀")(window.close)
+if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("每天开开心心",64,"老婆呀")(window.close)
+if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("永远没有烦恼",64,"老婆呀")(window.close)
+if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("好运在你身边",64,"老婆呀")(window.close)
+if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("和不愉快摆摆手",64,"老婆呀")(window.close)
+if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("以后好好学习吧！",64,"老婆呀")(window.close)
+if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("也希望咱俩能好好相处,不再吵架",64,"老婆呀")(window.close)
+if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("希望你的月饼里面有个(硬币)哦",64,"老婆呀")(window.close)
+if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("就这样吧",64,"老婆呀")(window.close)
+if %date:~0,10%==2020/10/01 mshta vbscript:msgbox("祝老婆今晚好梦哟",64,"老婆呀")(window.close)
 if %date:~0,10%==2020/10/01 echon -c C7 今天是国庆节哦，祝老婆国庆节快乐哦！
 if %date:~0,10%==2020/10/01 echon -c C7 今天要开开心心的哦！
 if %date:~0,10%==2020/10/01 echon -c C7 老公爱你哟！
 rem if %date:~0,10% neq 2020/08/25 set /a remain=25-%date:~8,2%
 rem if %date:~0,10% neq 2020/08/25 echon -c 5F 距离七夕还有%remain%天哦
-if %date:~0,10%==2020/08/25 echon -c C7 今天是七夕哦
-if %date:~0,10%==2020/08/25 echon -c C7 七夕快乐哟老婆
-if %date:~0,10%==2020/08/25 echon -c C7 别有太大压力,你会成功的,老公相信你哦!
-if %date:~0,10%==2020/08/25 echon -c C7 学习就要有个学习的样子,别总心思考不上考不上的
-if %date:~0,10%==2020/08/25 echon -c C7 你最后会发现,就是瞎想毁了你的学习
+if %date:~0,10%==2020/08/25 echon -c CF 今天是七夕哦
+if %date:~0,10%==2020/08/25 echon -c CF 七夕快乐哟老婆
+if %date:~0,10%==2020/08/25 echon -c CF 别有太大压力,你会成功的,老公相信你哦!
+if %date:~0,10%==2020/08/25 echon -c CF 学习就要有个学习的样子,别总心思考不上考不上的
+if %date:~0,10%==2020/08/25 echon -c CF 你最后会发现,就是瞎想毁了你的学习
 echo ▂▂▂▂▂▂▂
 echo.
 echo 选择项目:
@@ -198,8 +224,9 @@ echon -c 0B ├-S.电脑加速
 echon -c 0B └-SE.电脑加速[Extreme]
 echo.
 echon -c 0C 其他
+if %date:~0,10%==2020/10/01 echon -c 0B ├-L.国庆中秋寄语
 echon -c 0B ├-C:彩虹文字代码
-echon -c 0B ├-E:进入时光回忆网站
+echon -c 0B ├-E:JSG网站
 echon -c 0B ├-T.想跟你说的话
 echon -c 0B ├-H.帮助
 echon -c 0B └-U.本版本更新日志
@@ -219,8 +246,9 @@ if %choice%==S goto speed
 if %choice%==SE goto speedex
 if %choice%==P goto PING实用工具
 if %choice%==7X goto 7X
+if %choice%==L goto main
 if %choice%==C goto COLOR
-if %choice%==E goto TimeMachine
+if %choice%==E goto JSG
 if %choice%==T goto TALK
 if %choice%==H goto HELP
 if %choice%==U goto Update
@@ -256,12 +284,29 @@ echon -c C7 爱你哟,嘻嘻
 echo.
 pause
 goto main
-:TimeMachine
+:JSG
+title 你好呀,我的小娜娜
+set choice=no
 cls
-start https://love.jamsg.cn/
-echo 已经调用默认浏览器打开网站
-pause
-goto main
+color 0A
+cls
+echon -c 4F 你好呀,我的小娜娜
+echon 版本:%version%
+echo 现在是%date% %time%
+echon -c CF 我们已经相爱了%mdate%天哦
+echo ▂▂▂▂▂▂▂
+echo.
+echo 选择项目:
+echon -c 0C JSG网站
+echon -c 0B ├-1.JSG-主页
+echon -c 0B ├-2.JSG-PrDisk
+echon -c 0B └-3.我们的时光日记
+echo.
+echon -c 2F ↓输入选择↓
+set /p choice=
+if %choice%==1 start https://jamsg.cn &pause &goto main
+if %choice%==2 start https://prdisk.jamsg.cn &pause &goto main
+if %choice%==3 start https://love.jamsg.cn &pause &goto main
 :COLOR
 mode con:cols=65 lines=30
 cls
@@ -722,11 +767,13 @@ if %choice%==1 goto draw
 pause
 goto main
 :speed
+cls
 set choice=err
 echo.执行清理垃圾，加快运行速度
 echo.按1开始清理 如不想清理输入0回车&pause>nul
 set /p choice=
 if %choice%==0 goto main
+cls
 echo 正在清除系統垃圾文件，請稍等......
 del /f /s /q %systemdrive%\*.tmp
 del /f /s /q %systemdrive%\*._mp
@@ -748,34 +795,15 @@ echo.清除系统垃圾完成！
 echo.按任意键返回&pause>nul
 goto main
 :speedex
-echo 尚未开放 下次更新开放哦
+echo 尚未开放
 pause
 goto main
 :drawhacknumber
-cls
-echo 按任意键开始 只能通过关闭窗口退出哦
-pause>nul
-mode con:cols=100 lines=35
-@echo off
-title digitalrain
-color 0b
-setlocal ENABLEDELAYEDEXPANSION
-for /l %%i in (0) do (
-set "line="
-for /l %%j in (1,1,80) do (
-set /a Down%%j-=2
-set "x=!Down%%j!"
-if !x! LSS 0 (
-set /a Arrow%%j=!random!%%3
-set /a Down%%j=!random!%%15+10
-)
-set "x=!Arrow%%j!"
-if "!x!" == "2" (
-set "line=!line!!random:~-1! "
-) else (set "line=!line! ")
-)
-set /p=!line!<nul
-)
+echo 按Ctrl+C停止运行哦
+pause >nul
+start ..\comps\drawhacknumber.bat
+goto main
+
 :Update
 cls
 echo 获取更新信息...
