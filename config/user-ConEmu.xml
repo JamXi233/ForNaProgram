@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <key name="Software">
 	<key name="ConEmu">
-		<key name=".Vanilla" modified="2020-09-06 18:14:21" build="191012">
+		<key name=".Vanilla" modified="2020-09-30 20:30:26" build="191012">
 			<value name="ColorTable00" type="dword" data="00000000"/>
 			<value name="ColorTable01" type="dword" data="00aa0000"/>
 			<value name="ColorTable02" type="dword" data="0000aa00"/>
@@ -101,8 +101,8 @@
 			<value name="FontName" type="string" data="黑体"/>
 			<value name="FontName2" type="string" data="Lucida Console"/>
 			<value name="FontAutoSize" type="hex" data="00"/>
-			<value name="FontSize" type="ulong" data="20"/>
-			<value name="FontSizeX" type="ulong" data="10"/>
+			<value name="FontSize" type="ulong" data="18"/>
+			<value name="FontSizeX" type="ulong" data="0"/>
 			<value name="FontSizeX2" type="ulong" data="0"/>
 			<value name="FontSizeX3" type="ulong" data="0"/>
 			<value name="FontCharSet" type="hex" data="00"/>
@@ -116,7 +116,7 @@
 			<value name="bgImageColors" type="dword" data="ffffffff"/>
 			<value name="bgOperation" type="hex" data="00"/>
 			<value name="bgPluginAllowed" type="hex" data="01"/>
-			<value name="AlphaValue" type="hex" data="DA"/>
+			<value name="AlphaValue" type="hex" data="E3"/>
 			<value name="AlphaValueSeparate" type="hex" data="00"/>
 			<value name="AlphaValueInactive" type="hex" data="9D"/>
 			<value name="UserScreenTransparent" type="hex" data="01"/>
@@ -124,11 +124,11 @@
 			<value name="ColorKeyValue" type="dword" data="00010101"/>
 			<value name="UseCurrentSizePos" type="hex" data="01"/>
 			<value name="WindowMode" type="dword" data="0000051f"/>
-			<value name="ConWnd Width" type="dword" data="00000042"/>
-			<value name="ConWnd Height" type="dword" data="00000024"/>
+			<value name="ConWnd Width" type="dword" data="00000048"/>
+			<value name="ConWnd Height" type="dword" data="00000026"/>
 			<value name="Cascaded" type="hex" data="00"/>
-			<value name="ConWnd X" type="long" data="1007"/>
-			<value name="ConWnd Y" type="long" data="113"/>
+			<value name="ConWnd X" type="long" data="173"/>
+			<value name="ConWnd Y" type="long" data="194"/>
 			<value name="16bit Height" type="ulong" data="0"/>
 			<value name="AutoSaveSizePos" type="hex" data="01"/>
 			<value name="IntegralSize" type="hex" data="00"/>
@@ -873,7 +873,7 @@
 			</key>
 			<value name="StartCreateDelay" type="ulong" data="10"/>
 			<value name="DefaultTerminalDebugLog" type="hex" data="00"/>
-			<value name="LastMonitor" type="string" data="0,0,1920,1036"/>
+			<value name="LastMonitor" type="string" data="0,0,1680,1010"/>
 			<value name="Restore2ActiveMon" type="hex" data="00"/>
 			<value name="DownShowExOnTopMessage" type="hex" data="00"/>
 			<value name="EnvironmentSet" type="multi">
@@ -896,7 +896,7 @@
 			<value name="DynamicBufferHeight" type="hex" data="01"/>
 			<value name="CTS.ResetOnRelease" type="hex" data="00"/>
 			<value name="CTS.EraseBeforeReset" type="hex" data="01"/>
-			<value name="Anti-aliasing2" type="hex" data="01"/>
+			<value name="Anti-aliasing2" type="hex" data="00"/>
 			<value name="UseAltGrayPlus" type="hex" data="01"/>
 			<value name="MouseDragWindow" type="hex" data="01"/>
 			<value name="DebugLog" type="hex" data="00"/>

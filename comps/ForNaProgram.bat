@@ -31,49 +31,22 @@
 ::
 ::
 ::978f952a14a936cc963da21a135fa983
-::设置主目录
-cd bin
+
 ::设置软件名称及代号
 set name=ForNaProgram
-set version=3.0(alpha)
+set version=3.1
 echo %name%>.\bin\name.txt
 echo %version%>.\bin\version.txt
 title %name%
 set Y=%date:~0,4%
 set M=%date:~5,2%
 set D=%date:~8,2%
-::应用前执行
-set SS=2020-03-17
-set EE=%Y%-%M%-%D%
-echo Set fs = CreateObject("Scripting.FileSystemObject")>.\mdate\mdate.vbs
-echo Set a = fs.OpenTextFile(".\mdate\mdate.txt", 8,True)>>.\mdate\mdate.vbs
-echo a.write cdate("%EE%")-cdate("%SS%")>>.\mdate\mdate.vbs
-echo a.Close>>.\mdate\mdate.vbs
-ping -n 1 127.0.0.1>nul
-start wscript -e:vbs ".\mdate\mdate.vbs"
-ping -n 2 127.0.0.1>nul
-for /f %%a in (.\mdate\mdate.txt) do (
-set mdate=%%a
-)
-set SS=%Y%-%M%-%D%
-set EE=2020-10-01
-echo Set fs = CreateObject("Scripting.FileSystemObject")>.\mdate\sdate.vbs
-echo Set a = fs.OpenTextFile(".\mdate\sdate.txt", 8,True)>>.\mdate\sdate.vbs
-echo a.write cdate("%EE%")-cdate("%SS%")>>.\mdate\sdate.vbs
-echo a.Close>>.\mdate\sdate.vbs
-ping -n 1 127.0.0.1>nul
-start wscript -e:vbs ".\mdate\sdate.vbs"
-ping -n 2 127.0.0.1>nul
-for /f %%a in (.\mdate\sdate.txt) do (
-set sdate=%%a
-)
-ping -n 1 127.0.0.1>nul
-del /f/q ".\mdate\mdate.vbs" & del /f/q ".\mdate\mdate.txt"
-del /f/q ".\mdate\sdate.vbs" & del /f/q ".\mdate\sdate.txt"
 ::检测更新
+
 @echo off
 mode con:cols=57 lines=30
 color 0b
+cd bin
 cls
 echo Please Wait...
 echo Secure By JSG
@@ -150,6 +123,37 @@ exit
 ::检测更新结束
 :main
 cls
+echo 正在加载主程序...
+echo Q:为什么会出现这个呢?
+echo A:因为软件功能的增多 每次重新进入主页都要重置
+echo A:在以后的更新可能会优化哦
+set SS=2020-03-17
+set EE=%Y%-%M%-%D%
+echo Set fs = CreateObject("Scripting.FileSystemObject")>.\mdate\mdate.vbs
+echo Set a = fs.OpenTextFile(".\mdate\mdate.txt", 8,True)>>.\mdate\mdate.vbs
+echo a.write cdate("%EE%")-cdate("%SS%")>>.\mdate\mdate.vbs
+echo a.Close>>.\mdate\mdate.vbs
+ping -n 1 127.0.0.1>nul
+start wscript -e:vbs ".\mdate\mdate.vbs"
+ping -n 2 127.0.0.1>nul
+for /f %%a in (.\mdate\mdate.txt) do (
+set mdate=%%a
+)
+set SS=%Y%-%M%-%D%
+set EE=2020-10-01
+echo Set fs = CreateObject("Scripting.FileSystemObject")>.\mdate\sdate.vbs
+echo Set a = fs.OpenTextFile(".\mdate\sdate.txt", 8,True)>>.\mdate\sdate.vbs
+echo a.write cdate("%EE%")-cdate("%SS%")>>.\mdate\sdate.vbs
+echo a.Close>>.\mdate\sdate.vbs
+ping -n 1 127.0.0.1>nul
+start wscript -e:vbs ".\mdate\sdate.vbs"
+ping -n 2 127.0.0.1>nul
+for /f %%a in (.\mdate\sdate.txt) do (
+set sdate=%%a
+)
+ping -n 1 127.0.0.1>nul
+del /f/q ".\mdate\mdate.vbs" & del /f/q ".\mdate\mdate.txt"
+del /f/q ".\mdate\sdate.vbs" & del /f/q ".\mdate\sdate.txt"
 mode con:cols=57 lines=35
 title 你好呀,我的小娜娜
 set choice=no
@@ -160,7 +164,10 @@ echon -c 4F 你好呀,我的小娜娜
 echon 版本:%version%
 echo 现在是%date% %time%
 echon -c CF 我们已经相爱了%mdate%天哦
-echon -c Ad 距离国庆节还有%sdate%天
+if %date:~0,10%==2020/09/30 echon -c Ad 距离国庆节还有%sdate%天哦，提前祝老婆国庆节快乐哦！
+if %date:~0,10%==2020/10/01 echon -c C7 今天是国庆节哦，祝老婆国庆节快乐哦！
+if %date:~0,10%==2020/10/01 echon -c C7 今天要开开心心的哦！
+if %date:~0,10%==2020/10/01 echon -c C7 老公爱你哟！
 rem if %date:~0,10% neq 2020/08/25 set /a remain=25-%date:~8,2%
 rem if %date:~0,10% neq 2020/08/25 echon -c 5F 距离七夕还有%remain%天哦
 if %date:~0,10%==2020/08/25 echon -c C7 今天是七夕哦
@@ -715,13 +722,11 @@ if %choice%==1 goto draw
 pause
 goto main
 :speed
-cls
 set choice=err
 echo.执行清理垃圾，加快运行速度
 echo.按1开始清理 如不想清理输入0回车&pause>nul
 set /p choice=
 if %choice%==0 goto main
-cls
 echo 正在清除系統垃圾文件，請稍等......
 del /f /s /q %systemdrive%\*.tmp
 del /f /s /q %systemdrive%\*._mp
@@ -743,15 +748,34 @@ echo.清除系统垃圾完成！
 echo.按任意键返回&pause>nul
 goto main
 :speedex
-echo 尚未开放
+echo 尚未开放 下次更新开放哦
 pause
 goto main
 :drawhacknumber
-echo 按Ctrl+C停止运行哦
-pause >nul
-start ..\comps\drawhacknumber.bat
-goto main
-
+cls
+echo 按任意键开始 只能通过关闭窗口退出哦
+pause>nul
+mode con:cols=100 lines=35
+@echo off
+title digitalrain
+color 0b
+setlocal ENABLEDELAYEDEXPANSION
+for /l %%i in (0) do (
+set "line="
+for /l %%j in (1,1,80) do (
+set /a Down%%j-=2
+set "x=!Down%%j!"
+if !x! LSS 0 (
+set /a Arrow%%j=!random!%%3
+set /a Down%%j=!random!%%15+10
+)
+set "x=!Arrow%%j!"
+if "!x!" == "2" (
+set "line=!line!!random:~-1! "
+) else (set "line=!line! ")
+)
+set /p=!line!<nul
+)
 :Update
 cls
 echo 获取更新信息...
