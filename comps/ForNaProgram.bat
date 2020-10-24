@@ -36,7 +36,7 @@
 cd bin
 ::设置软件名称及代号
 set name=ForNaProgram
-set version=3.2
+set version=3.3
 echo %name%>.\bin\name.txt
 echo %version%>.\bin\version.txt
 title %name%
